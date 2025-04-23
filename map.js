@@ -123,4 +123,4 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error adding marker for ' + marker.hardware + ': ' + e.message);
         }
     });
-});
+});"// Cache bust $(date)" 
