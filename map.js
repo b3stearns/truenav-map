@@ -1,5 +1,16 @@
 
-        function initializeMap(mapId, centerLat, centerLng) {
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find the map container and get its attributes
+            const mapContainer = document.querySelector('div[id^="map_"]');
+            if (!mapContainer) {
+                console.error('Map container not found');
+                return;
+            }
+
+            const mapId = mapContainer.id;
+            const centerLat = parseFloat(mapContainer.getAttribute('data-center-lat'));
+            const centerLng = parseFloat(mapContainer.getAttribute('data-center-lng'));
+
             fetch('../markers_data.json')
                 .then(response => {
                     if (!response.ok) {
@@ -94,5 +105,5 @@
                     console.error('Error loading markers:', error);
                     alert('Failed to load markers_data.json. Please ensure the file exists and is accessible. This may happen if you are opening the HTML file directly (file://). Try serving the file through a local web server (e.g., using "python -m http.server 8000"). Error: ' + error.message);
                 });
-        }
+        });
         
