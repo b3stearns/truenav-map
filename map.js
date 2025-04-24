@@ -72,34 +72,65 @@
                         });
                     }, 100);
 
-                    // Add markers to their respective groups
-                    markersData.forEach(marker => {
-                        var markerOptions = { zIndexOffset: 1000 };
-                        if (marker.iconUrl) {
-                            markerOptions.icon = L.icon({
-                                iconUrl: marker.iconUrl,
-                                iconSize: [48, 48],
-                                iconAnchor: [24, 48],
-                                popupAnchor: [0, -48],
-                                tooltipAnchor: [24, -24]
-                            });
-                        } else {
-                            markerOptions.icon = new L.Icon.Default();
-                            markerOptions.icon.options.iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-' + marker.color + '.png';
-                        }
-                        var circleMarker = L.marker([marker.lat, marker.lng], markerOptions);
-                        circleMarker.bindPopup(marker.popup);
-                        circleMarker.bindTooltip(marker.tooltip, { sticky: true });
-                        circleMarker.addTo(featureGroups[marker.hardware]);
-                        markerLayers[marker.hardware].push(circleMarker);
-                    });
+                    // Time filter functionality
+                    var timeFilter = document.getElementById('time-filter');
+                    var currentTime = Math.floor(Date.now() / 1000);
 
-                    // Fit map to bounds
-                    var allBounds = [];
-                    markersData.forEach(marker => allBounds.push([marker.lat, marker.lng]));
-                    if (allBounds.length > 0) {
-                        map.fitBounds(allBounds);
+                    function updateMarkers() {
+                        var hours = timeFilter.value === 'all' ? Infinity : parseInt(timeFilter.value) * 3600;
+                        var timeThreshold = hours === Infinity ? 0 : currentTime - hours;
+
+                        // Clear existing markers
+                        Object.keys(markerLayers).forEach(function(hardware) {
+                            markerLayers[hardware].forEach(function(marker) {
+                                map.removeLayer(marker);
+                            });
+                            markerLayers[hardware] = [];
+                        });
+
+                        // Add markers based on time filter
+                        markersData.forEach(marker => {
+                            if (marker.epochTime < timeThreshold && marker.epochTime !== 0) {
+                                return;
+                            }
+
+                            var markerOptions = { zIndexOffset: 1000 };
+                            if (marker.iconUrl) {
+                                markerOptions.icon = L.icon({
+                                    iconUrl: marker.iconUrl,
+                                    iconSize: [48, 48],
+                                    iconAnchor: [24, 48],
+                                    popupAnchor: [0, -48],
+                                    tooltipAnchor: [24, -24]
+                                });
+                            } else {
+                                markerOptions.icon = new L.Icon.Default();
+                                markerOptions.icon.options.iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-' + marker.color + '.png';
+                            }
+                            var circleMarker = L.marker([marker.lat, marker.lng], markerOptions);
+                            circleMarker.bindPopup(marker.popup);
+                            circleMarker.bindTooltip(marker.tooltip, { sticky: true });
+                            circleMarker.addTo(featureGroups[marker.hardware]);
+                            markerLayers[marker.hardware].push(circleMarker);
+                        });
+
+                        // Fit map to bounds of visible markers
+                        var allBounds = [];
+                        markersData.forEach(marker => {
+                            if (marker.epochTime >= timeThreshold || marker.epochTime === 0) {
+                                allBounds.push([marker.lat, marker.lng]);
+                            }
+                        });
+                        if (allBounds.length > 0) {
+                            map.fitBounds(allBounds);
+                        }
                     }
+
+                    // Initial marker display
+                    updateMarkers();
+
+                    // Add event listener for time filter
+                    timeFilter.addEventListener('change', updateMarkers);
                 })
                 .catch(error => {
                     console.error('Error loading markers:', error);

@@ -8,17 +8,33 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
             <style>
-                #map_8c4b30e257664966b8c4ffd314c31373 { height: 600px; width: 100%; }
+                #map_85cbfb4bdc8e4280af3c989afec2b089 { height: 600px; width: 100%; }
                 .leaflet-container { font-size: 1rem; }
                 .custom-layer-control .leaflet-control-layers-list { padding: 10px; }
                 .leaflet-control-layers-base label, .leaflet-control-layers-overlays label { display: block; margin: 2px 0; font-size: 12px; }
                 .leaflet-control-layers-base input, .leaflet-control-layers-overlays input { vertical-align: middle; margin-right: 5px; }
+                #time-filter {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    z-index: 1000;
+                    background: white;
+                    padding: 5px;
+                    border: 1px solid #ccc;
+                    border-radius: 3px;
+                }
             </style>
             <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
             <script src="map.js"></script>
         </head>
         <body>
-            <div id="map_8c4b30e257664966b8c4ffd314c31373" data-center-lat="44.041550345978074" data-center-lng="-97.91037955599722"></div>
+            <div id="map_85cbfb4bdc8e4280af3c989afec2b089" data-center-lat="44.041550345978074" data-center-lng="-97.91037955599722"></div>
+            <select id="time-filter">
+                <option value="all">All Time</option>
+                <option value="12">Last 12 Hours</option>
+                <option value="24">Last 1 Day</option>
+                <option value="72">Last 3 Days</option>
+            </select>
         </body>
         </html>
         
