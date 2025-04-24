@@ -95,20 +95,41 @@
                             }
 
                             var markerOptions = { zIndexOffset: 1000 };
+                            var isRecent = marker.epochTime > (currentTime - 12 * 3600); // Last 12 hours
                             if (marker.iconUrl) {
-                                markerOptions.icon = L.icon({
-                                    iconUrl: marker.iconUrl,
-                                    iconSize: [48, 48],
-                                    iconAnchor: [24, 48],
-                                    popupAnchor: [0, -48],
-                                    tooltipAnchor: [24, -24]
-                                });
+                                if (isRecent) {
+                                    markerOptions.icon = L.divIcon({
+                                        className: 'glowing-marker',
+                                        html: `<div style="position: relative; width: 48px; height: 48px;">
+                                               <img src="${marker.iconUrl}" style="width: 48px; height: 48px; position: absolute; top: 0; left: 0;" />
+                                               </div>`,
+                                        iconSize: [48, 48],
+                                        iconAnchor: [24, 48],
+                                        popupAnchor: [0, -48],
+                                        tooltipAnchor: [24, -24]
+                                    });
+                                } else {
+                                    markerOptions.icon = L.icon({
+                                        iconUrl: marker.iconUrl,
+                                        iconSize: [48, 48],
+                                        iconAnchor: [24, 48],
+                                        popupAnchor: [0, -48],
+                                        tooltipAnchor: [24, -24]
+                                    });
+                                }
                             } else {
                                 markerOptions.icon = new L.Icon.Default();
                                 markerOptions.icon.options.iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-' + marker.color + '.png';
                             }
                             var circleMarker = L.marker([marker.lat, marker.lng], markerOptions);
-                            circleMarker.bindPopup(marker.popup);
+                            var popupContent = `
+                                <b>Username:</b> ${marker.username || 'N/A'}<br>
+                                <b>Session Time:</b> ${marker.sessionTime || 'N/A'}<br>
+                                <b>Station ID:</b> ${marker.station || 'N/A'}<br>
+                                <b>Distance:</b> ${marker.distance || 'N/A'}<br>
+                                <b>Status:</b> ${marker.status || 'N/A'}
+                            `;
+                            circleMarker.bindPopup(popupContent);
                             circleMarker.bindTooltip(marker.tooltip, { sticky: true });
                             circleMarker.addTo(featureGroups[marker.hardware]);
                             markerLayers[marker.hardware].push(circleMarker);
