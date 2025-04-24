@@ -8,7 +8,16 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
             <style>
-                #map_c45ab1ae7ee5464e87413388375df61c { height: 600px; width: 100%; }
+                html, body {
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                }
+                #map_88d868da4b1c4833a8f3a9d70e453b31 {
+                    height: 100vh;
+                    width: 100vw;
+                }
                 .leaflet-container { font-size: 1rem; }
                 .custom-layer-control .leaflet-control-layers-list { padding: 10px; }
                 .leaflet-control-layers-base label, .leaflet-control-layers-overlays label { display: block; margin: 2px 0; font-size: 12px; }
@@ -37,12 +46,13 @@
             <script src="map.js"></script>
         </head>
         <body>
-            <div id="map_c45ab1ae7ee5464e87413388375df61c" data-center-lat="44.041550345978074" data-center-lng="-97.91037955599722"></div>
+            <div id="map_88d868da4b1c4833a8f3a9d70e453b31" data-center-lat="44.041550345978074" data-center-lng="-97.91037955599722"></div>
             <select id="time-filter">
                 <option value="all">All Time</option>
                 <option value="12">Last 12 Hours</option>
                 <option value="24">Last 1 Day</option>
-                <option value="72">Last 3 Days</option>
+                <option value="48">Last 2 Days</option>
+                <option value="168">Last 7 Days</option>
             </select>
         </body>
         </html>
