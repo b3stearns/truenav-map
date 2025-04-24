@@ -8,7 +8,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
             <style>
-                #map_68623bfbf24b409da79893e8801b387e { height: 600px; width: 100%; }
+                #map_83748bc6c11f47358a1b3b9555eae2da { height: 600px; width: 100%; }
                 .leaflet-container { font-size: 1rem; }
                 .custom-layer-control .leaflet-control-layers-list { padding: 10px; }
                 .leaflet-control-layers-base label, .leaflet-control-layers-overlays label { display: block; margin: 2px 0; font-size: 12px; }
@@ -17,7 +17,7 @@
             <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
         </head>
         <body>
-            <div id="map_68623bfbf24b409da79893e8801b387e"></div>
+            <div id="map_83748bc6c11f47358a1b3b9555eae2da"></div>
             <script>
             document.addEventListener('DOMContentLoaded', function() {
                 fetch('../markers_data.json')
@@ -28,7 +28,7 @@
                         return response.json();
                     })
                     .then(markersData => {
-                        var map = L.map('map_68623bfbf24b409da79893e8801b387e').setView([44.041550345978074, -97.91037955599722], 7);
+                        var map = L.map('map_83748bc6c11f47358a1b3b9555eae2da').setView([44.041550345978074, -97.91037955599722], 7);
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         }).addTo(map);
